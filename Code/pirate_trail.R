@@ -33,15 +33,12 @@ focus_point <- focus_point %>%
 elev_data <- elev_data[focus_point]
 
 
-plot(elev_data)
-plot(path, add = T, col  = 'red', lwd = 5)
 
-
-library(ggplot2)
-
-ggplot() +
-  geom_stars(data = elev_data, downsample = 5) +
-  geom_sf(data = path)
+# library(ggplot2)
+# 
+# ggplot() +
+#   geom_stars(data = elev_data, downsample = 5) +
+#   geom_sf(data = path)
 
 
 library(rayshader)
@@ -58,12 +55,8 @@ ext <- attr(elev_data,"extent")
 elev_data <- elev_data %>% 
   raster_to_matrix()
 
+
 # Throw some shade
-
-elev_data %>%
-  sphere_shade(colorintensity = 50, sunangle = 270) %>%
-  plot_map()
-
 raymat <- elev_data %>% 
   ray_shade(sunangle = 73)
 
@@ -76,9 +69,8 @@ elev_data %>%
   plot_3d(elev_data, theta = 195, phi = 20,
           zscale = 0.55, zoom = 0.35, windowsize = c(1000, 900))
 
-render_path(extent = ext, 
-            lat = st_coordinates(path)[, 2], long = st_coordinates(path)[, 1],
-            altitude = 70)
+render_path(extent = ext, lat = st_as_sf(path),
+            offset = 10)
 
 rgl::rgl.close()
 
