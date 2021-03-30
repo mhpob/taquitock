@@ -10,4 +10,7 @@ tqtk <- st_read('data/henrico tax parcels/tax_parcels_cama_data.shp',
 tqtk <- tqtk %>% 
   st_transform(4326)
 
+st_write(tqtk, 'data derived/taquitock_parcels.gpkg')
+
 plot(st_geometry(tqtk))
+plot(st_geometry(track), add = T)
